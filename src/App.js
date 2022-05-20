@@ -1,6 +1,8 @@
+import Router from './components/Routes';
+
 function App() {
-  return(
-    <div>TEXT</div>
+  return (
+    <Router />
   )
 }
 
