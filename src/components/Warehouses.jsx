@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 const Warehouses = () => {
 
   const [warehouses, setWarehouses] = useState([])
+  const [gis, setGis] = useState([])
 
   const fetchWarehouses = () => axios.get('http://localhost:3000/api/warehouses')
     .then((response) => {
       const warehouses = response.data
       setWarehouses(warehouses)
+      setGis(gis)
     })
     .catch(error => console.error('warehouses api req failed', error))
 

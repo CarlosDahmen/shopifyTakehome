@@ -1,4 +1,5 @@
 const Warehouse = require('../db/models/warehouse');
+const Gi = require('../db/models/gi')
 const warehouseRouter = require('express').Router();
 
 // GET /api/warehouses/:warehouseId
@@ -7,7 +8,11 @@ warehouseRouter.get('/:id', async (req, res, next) => {
     const warehouse = await Warehouse.findOne(
       {where: {id: req.params.id}}
       );
-    res.json({warehouse})
+
+    const gis = await Gi.findAll(
+      {where: {warehouseId: req.params.id}}
+    )
+    res.json({warehouse, gis})
   } catch (err) {
     next(err);
   }

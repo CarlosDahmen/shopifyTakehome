@@ -17,36 +17,42 @@ const warehouses = [
 const gis = [
   {
     brand: "Wartribe",
-    model: "Darkwater"
+    model: "Darkwater",
+    // warehouseId: 1
   }, {
     brand: "Wartribe",
-    model: "Reaper"
+    model: "Reaper",
+    // warehouseId: 2
   }
 ]
 
 const seed = async () => {
   try {
     await db.sync({ force: true });
-    await Promise.all(gis.map(gi => {
-      return Gi.create(gi);
-    }))
-    await Promise.all(warehouses.map(warehouse => {
-      return Warehouse.create(warehouse);
-    }))
-    // seed your database here
+    return Promise.all([
+      Gi.create({ brand: "Wartribe", model: "Darkwater" }),
+      Gi.create({ brand: "Wartribe", model: "Reaper" }),
+      Warehouse.create({name: 'East Coast Warehouse', address: 'NY', description: "East Coast" }),
+      Warehouse.create({ name: 'West Coast Warehouse', address: 'SF', description: "West Coast"}),
+    ])
+    .then(([gi1, gi2, warehouse1, warehouse2,]) => {
+      return Promise.all([
+        gi1.setWarehouse(warehouse1),
+        gi2.setWarehouse(warehouse2),
+      ]);
+    })
+
   } catch (err) {
-    console.log(err);
+    (err);
   }
 };
 
 module.exports = seed;
-// If this module is being required from another module, then we just export the
-// function, to be used as necessary. But it will run right away if the module
-// is executed directly (e.g. `node seed.js` or `npm run seed`)
+
 if (require.main === module) {
   seed()
     .then(() => {
-      console.log("Seeding success!");
+      ("Seeding success!");
       db.close();
     })
     .catch(err => {

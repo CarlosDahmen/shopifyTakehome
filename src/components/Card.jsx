@@ -2,7 +2,6 @@ const Card = props => {
   return  (
     <div className="card">
         <div className="card-text">
-          {/* <img src={props.imageUrl} className="card-image" /> */}
           <div className="card-information">
             <h2>{props.name}</h2>
             <div className="card-actions">

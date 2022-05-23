@@ -28,8 +28,8 @@ app.use(express.static(path.resolve(__dirname, '..','dist', 'public')))
 
 app.use('/', (req, res, next) => res.sendFile(path.join(__dirname, '../public/index.html')) )
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-});
+// app.listen(port, () => {
+//   (`App listening on port ${port}`)
+// });
 
 module.exports = app;

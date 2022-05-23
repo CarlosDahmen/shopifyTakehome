@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Navbar from './Navbar';
+import Card from './Card';
 
 const EditWarehouse = (props) => {
 
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [description, setDescription] = useState('')
+  const [gis, setGis] = useState([])
 
   const pathname = location.pathname;
 
   const fetchWarehouse = () => {
     axios.get(`http://localhost:3000/api${pathname}`)
     .then((response) => {
-      const warehouse = response.data
-      setName(warehouse.warehouse.name)
-      setAddress(warehouse.warehouse.address)
-      setDescription(warehouse.warehouse.description)
+      const warehouse = response.data.warehouse;
+      const gis = response.data.gis;
+      setName(warehouse.name)
+      setAddress(warehouse.address)
+      setDescription(warehouse.description)
+      setGis(gis)
     })
     .catch(error => console.error('warehousess api req failed', error))
   }
@@ -52,6 +56,13 @@ const EditWarehouse = (props) => {
           <input name="description" onChange={(evt) => setDescription(evt.target.value)} value={description} />
           <button type="submit">Update</button>
         </form>
+        <h2>Gis in this Warehouse:</h2>
+        {
+        gis.length === 0 ? <h3>No Gis assigned to this warehouse</h3>  :
+        gis.map(gi => {
+            return <h3>{gi.brand} {gi.model}</h3>
+        })
+        }
       </ div>
     </div>
   )

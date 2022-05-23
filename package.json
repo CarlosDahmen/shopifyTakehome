@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "nodemon main.js",
     "seed": "node seed.js",
     "build": "webpack"
   },
@@ -26,7 +26,7 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "sass-loader": "^12.6.0",
-    "sequelize": "^6.19.1",
+    "sequelize": "^5.22.5",
     "style-loader": "^3.3.1",
     "volleyball": "^1.5.1",
     "webpack": "^5.72.1",

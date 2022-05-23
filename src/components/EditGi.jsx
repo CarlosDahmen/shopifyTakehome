@@ -10,14 +10,23 @@ const EditGi = (props) => {
     axios.get(`http://localhost:3000/api${pathname}`)
     .then((response) => {
       const gi = response.data
-      setBrand(gi.gi.brand)
-      setModel(gi.gi.model)
+      setBrand(gi.brand)
+      setModel(gi.model)
     })
     .catch(error => console.error('gis api req failed', error))
   }
 
+  const fetchWarehouses = () => axios.get('http://localhost:3000/api/warehouses')
+  .then((response) => {
+    const warehouses = response.data
+    setWarehouses(warehouses)
+  })
+  .catch(error => console.error('warehouses api req failed', error))
+
   const [brand, setBrand] = useState('')
   const [model, setModel] = useState('')
+  const [warehouses, setWarehouses] = useState([])
+  const [warehouseId, setWarehouseId] = useState(null)
 
   const updateGi = (data) => {
     axios.put(`http://localhost:3000/api${pathname}`, data)
@@ -25,13 +34,18 @@ const EditGi = (props) => {
 
   const submitHandler = evt => {
     evt.preventDefault()
-    updateGi({ brand, model })
+    updateGi({ brand, model, warehouseId })
     setBrand('')
     setModel('')
   }
 
+  const changeHandler = evt => {
+    setWarehouseId(evt.target.value)
+  }
+
   useEffect(() => {
-    fetchGi()
+    fetchGi(),
+    fetchWarehouses()
   }, [])
 
   return (
@@ -43,6 +57,16 @@ const EditGi = (props) => {
           <input name="brand" onChange={(evt) => setBrand(evt.target.value)} value={brand} />
           <label htmlFor="giModel">Last Name:</label>
           <input name="model" onChange={(evt) => setModel(evt.target.value)} value={model} />
+          <label>Assign to warehouse:</label>
+          <select id="selected-warehouse" onChange={changeHandler}>
+          <option value={null} key={0}>{'--'}</option>
+            {warehouses.map(warehouse => {
+              return(
+                <option value={warehouse.id} key={warehouse.id}>{warehouse.name}</option>
+              )
+              })
+            }
+          </select>
           <button type="submit">Update</button>
         </form>
       </ div>
